@@ -1,0 +1,65 @@
+services:
+  # Frontend - React с Hot Reload
+    frontend:
+      build:
+        context: ./frontend
+        target: development
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./frontend/src:/app/src
+        - ./frontend/public:/app/public
+        - ./frontend/package.json:/app/package.json
+        - ./frontend/vite.config.js:/app/vite.config.js
+        - ./frontend/index.html:/app/index.html
+      environment:
+        - NODE_ENV=development
+        - VITE_API_URL=http://backend:5000
+        - CHOKIDAR_USEPOLLING=true
+        - WATCHPACK_POLLING=true
+      command: npm run dev -- --host 0.0.0.0
+      networks:
+        - app-network
+
+  # Backend - Node.js с Hot Reload
+    backend:
+      build:
+        context: ./backend
+        target: development
+      ports:
+        - "5000:5000"
+      volumes:
+        - ./backend:/app                    # Hot reload кода
+        - /app/node_modules                 # Защита node_modules
+      environment:
+        - NODE_ENV=development
+        - DATABASE_URL=postgresql://user:password@postgres:5432/myapp
+        - JWT_SECRET=dev-jwt-secret-change-in-production
+        - SESSION_SECRET=secret
+        - CLIENT_URL=http://localhost:3000
+      depends_on:
+        - postgres
+      command: npm run dev
+      networks:
+        - app-network
+
+    # Database - PostgreSQL
+    postgres:
+      image: postgres:15
+      environment:
+        POSTGRES_DB: myapp
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: password
+      ports:
+        - "5432:5432"                      # Доступ к БД извне
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      networks:
+        - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
