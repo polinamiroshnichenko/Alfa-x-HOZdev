@@ -42,7 +42,24 @@ https://siktivkar.bezformata.com/listnews/bolshinstve-otrasley/143617241/
 конкретно про финансы
 https://newsroom.paypal-corp.com/2025-06-10-Beyond-Efficiency-Small-Businesses-Look-to-AI-for-Competitive-Edge,-New-Survey-Shows
 
-крутая статейка
+про отрасли, в которых бизнес прибегает к помощи ии
 https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai
 https://learn.microsoft.com/en-us/answers/questions/2349627/copilot-doesnt-work-at-all-it-tells-me-to-sign-in
 https://www.gartner.com/en/newsroom/press-releases/2024-05-07-gartner-survey-finds-generative-ai-is-now-the-most-frequently-deployed-ai-solution-in-organizations
+
+Основная боль - всё-таки работа с юридическими и финансовыми вопросами, особенно в вопросах "столкновения" этих двух сред: в работе с тендерами, госзакупками, мерами поддержки; 
+
+https://proffadmin.ru/stati/zakupki/uyazvimye-tochki-sistemy-goszakupok-snizhenie-riskov-korruptsii-oshibok-i-manipulyatsiy-rezultatami-zakupochnykh-protsedur/
+https://www.consultant.ru/legalnews/24597/
+https://fz44.org/blog/2025/11/02/44-%D1%84%D0%B7-%D0%B2%D0%B0%D0%B6%D0%BD%D1%8B%D0%B5-%D1%80%D0%B8%D1%81%D0%BA%D0%B8-%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D1%87%D0%B8%D0%BA%D0%B0-sc-nameincity-sc/
+https://cyberleninka.ru/article/n/problemy-i-riski-v-oblasti-gosudarstvennyh-zakupok-v-dorozhnom-stroitelstve/viewer
+https://school.kontur.ru/publications/1758
+https://biz.dasreda.ru/contract/article/problems
+https://cyberleninka.ru/article/n/aktualnye-problemy-gosudarstvennoy-podderzhki-malogo-i-srednego-predprinimatelstva/viewer
+https://dzen.ru/a/X76Gbp6DJFcFXRyE
+https://www.tendery.ru/forum/viewtopic.php?f=521628&t=2038498
+https://pikabu.ru/story/pro_moy_opyit_v_goszakupkakh_11433166
+https://tender-rus.ru/istorii-uchastiya
+https://opora.ru/news/anounce/promsvyazbank-i-opora-rossii-rasskazhut-o-rezultatakh-issledovaniya-biznes-samochuvstviya-rossiyskikh-kompaniy/
+из расшифровки трансляции:  В 2024–2025 гг. в фокусе: «доступ к госзакупкам» и «сложность получения субсидий» как топ-3 барьера роста 
+https://www.sravni.ru/text/kak-nachat-rabotat-s-tenderami-lichniy-opyt/
