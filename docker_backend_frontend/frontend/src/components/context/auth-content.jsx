@@ -36,7 +36,59 @@ export function AuthProvider({ children }) {
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
+            console.log(data.user)
+            return data;
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    const updateUser = async (userData) => {
+        setLoading(true);
+        try {
+            const response = await fetch("/api/user/update", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "User update failed");
+            }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            setUser(data.user);
+
+            return data;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const completeOnboarding = async (userData) => {
+        setLoading(true);
+        try {
+            const response = await fetch("/api/user/completeOnboarding", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({id: userData.id}),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "User update failed");
+            }
+
+            localStorage.setItem("user", JSON.stringify(data.user));
+            setUser(data.user);
+            console.log(data.user)
             return data;
         } finally {
             setLoading(false);
@@ -63,7 +115,7 @@ export function AuthProvider({ children }) {
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-
+            console.log(data)
             return data;
         } catch (error) {
             console.log(error);
@@ -109,6 +161,8 @@ export function AuthProvider({ children }) {
         login,
         logout,
         check,
+        updateUser,
+        completeOnboarding,
         isAuthenticated: !!user,
     };
 

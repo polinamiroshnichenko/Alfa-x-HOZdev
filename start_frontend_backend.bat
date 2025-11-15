@@ -33,7 +33,7 @@ echo.
 set /p choice="Enter choice (0-9): "
 
 if "!choice!"=="1" (
-    call :start_dev --build
+    call :start_dev_rebuild
 ) else if "!choice!"=="2" (
     call :start_dev
 ) else if "!choice!"=="3" (
@@ -63,7 +63,21 @@ echo.
 echo 🚀 Starting DEVELOPMENT environment...
 cd /d "!COMPOSE_PATH!"
 echo 📁 Using: !DEV_FILE!
-docker-compose -f !DEV_FILE! up %*
+docker-compose -f !DEV_FILE! up
+if errorlevel 1 (
+    echo ❌ Failed to start development environment
+    pause
+)
+goto :eof
+
+:start_dev_rebuild
+echo.
+cd /d "!COMPOSE_PATH!"
+echo 🗑️ Deleting all previous containers and volumes...
+docker-compose -f !DEV_FILE! down -v
+echo 🚀 Starting DEVELOPMENT environment...
+echo 📁 Using: !DEV_FILE!
+docker-compose -f !DEV_FILE! up --build
 if errorlevel 1 (
     echo ❌ Failed to start development environment
     pause

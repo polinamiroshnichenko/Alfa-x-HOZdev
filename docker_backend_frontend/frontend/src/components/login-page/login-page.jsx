@@ -1,6 +1,6 @@
-import { useLogin } from "./useLogin";
+import { useLogin } from "./use-login";
 
-export function Login() {
+export function LoginPage() {
     const {
         error,
         loading,

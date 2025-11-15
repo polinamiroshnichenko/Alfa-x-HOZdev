@@ -12,14 +12,32 @@ const User = sequelize.define('User', {
     unique: true,
     allowNull: false
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   password: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  name: {
+  business_sphere: {
     type: DataTypes.STRING,
-    allowNull: false
-  }
+    allowNull: true
+  },
+  region: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  desc: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  watchedOnboarding: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: false
+  },
+
 },
 {
   tableName: 'users', 

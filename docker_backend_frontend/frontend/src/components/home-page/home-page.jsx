@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/use-auth.js";
 import { useNavigate } from 'react-router-dom';
 
-export function Home() {
-    const { isAuthenticated, user, logout } = useAuth();
+export function HomePage() {
+    const { isAuthenticated, user, logout, completeOnboarding } = useAuth();
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ export function Home() {
         if (!isAuthenticated) {
             navigate("/login");
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, user, navigate]);
 
     const handleLogout = async (e) => {
         e.preventDefault();
@@ -25,10 +25,14 @@ export function Home() {
         }
     };
 
+    if (!user) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className="">
             <div className="">
-                Hello{isAuthenticated && " " + user.name}!
+                Hello{isAuthenticated && " " + user.name}! {(user.watchedOnboarding === "true") || "you go watch onboarding"}
             </div>
             {error && (
                 <div className="">
@@ -36,6 +40,8 @@ export function Home() {
                 </div>
             )}
             <button onClick={handleLogout}>Logout</button>
+            <button onClick={() => navigate("/update-user")}>Fill info</button>
+            <button onClick={() => completeOnboarding(user)}>Watch onboarding</button> 
         </div>
     )
 }

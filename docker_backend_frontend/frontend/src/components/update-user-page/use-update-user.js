@@ -2,21 +2,14 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/use-auth.js';
 import { useNavigate } from 'react-router-dom';
 
-export function useRegister() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: ''
-    });
+export function useUpdateUser() {
     const [error, setError] = useState('');
-    const { register, loading, isAuthenticated } = useAuth();
+    const { loading, isAuthenticated, updateUser, user } = useAuth();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/');
-        }
-    }, [isAuthenticated, navigate])
+    const [formData, setFormData] = useState({
+        ...user,
+        password: ""
+    });
 
     const handleChange = (e) => {
         setFormData({
@@ -30,12 +23,17 @@ export function useRegister() {
         setError('');
 
         try {
-            await register(formData);
-            navigate('/');
+            await updateUser(formData);
         } catch (err) {
             setError(err.message);
         }
     };
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate])
 
     return {
         error,
