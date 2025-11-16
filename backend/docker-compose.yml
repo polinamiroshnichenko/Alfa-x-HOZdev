@@ -1,0 +1,73 @@
+services:
+  api:
+    build: ../..
+    container_name: tender_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    environment:
+      DB1_HOST: db
+      DB1_PORT: 5432
+      DB1_NAME: ${POSTGRES_DB_INFO}
+      DB1_USER: ${POSTGRES_USER}
+      DB1_PASSWORD: ${POSTGRES_PASSWORD}
+
+      DB2_HOST: db
+      DB2_PORT: 5432
+      DB2_NAME: ${POSTGRES_DB_CHUNKS}
+      DB2_USER: ${POSTGRES_USER}
+      DB2_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      chunks_loader:
+        condition: service_completed_successfully
+
+  info_loader:
+    build: ../..
+    container_name: tender_info_loader
+    working_dir: /Alfa-x-HOZdev/backend/app/db_info
+    command: python load_tender_data_with_embedded_names.py
+    volumes:
+      - ./db_info:/app/db_info
+    environment:
+      DATABASE_URL_INFO: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB_INFO}"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  chunks_loader:
+    build: ../..
+    container_name: tender_chunks_loader
+    working_dir: /Alfa-x-HOZdev/backend/app/db_info
+    command: python load_tender_embedded.py
+    volumes:
+      - ./db_info:/app/db_info
+    environment:
+      DATABASE_URL_CHUNKS: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB_CHUNKS}"
+    depends_on:
+      info_loader:
+        condition: service_completed_successfully
+
+  db:
+    image: pgvector/pgvector:pg15
+    container_name: tender_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB_INFO: ${POSTGRES_DB_INFO}
+      POSTGRES_DB_CHUNKS: ${POSTGRES_DB_CHUNKS}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+
