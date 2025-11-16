@@ -68,7 +68,7 @@ app.post("/api/auth/register", async (req, res) => {
             req.body;
 
         // Валидация
-        if (!(name && email && password && business_sphere && region && desc)) {
+        if (!(name && email && password && business_sphere != "none" && business_sphere && region != "none" && region && desc)) {
             return res.status(400).json({ error: "Some fields are required" });
         }
 

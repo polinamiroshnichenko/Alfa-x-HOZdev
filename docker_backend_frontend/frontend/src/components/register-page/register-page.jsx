@@ -1,100 +1,171 @@
+import TextInput from "../ui/text-input";
+import MainButton from "../ui/main-button";
+import DropdownInput from "../ui/dropdown-input";
+import TextareaInput from "../ui/textarea-input";
 import { useRegister } from "./useRegister";
 
-export function RegisterPage() {
-    
-    const {
-            error,
-            loading,
-            formData,
-            handleChange,
-            handleSubmit,
-        } = useRegister();
+import authBg from "../img/auth-bg.png";
+import ArrowRight from "../img/arrow-right";
 
-    return (
-        <div className="container">
-            <h1>Register</h1>
-            {error && (
-                <div className="alert alert-error">
-                    {error}
-                </div>
-            )}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-2">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        maxLength={30}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        maxLength={30}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="business_sphere">Business sphere</label>
-                    <select
-                        id="business_sphere"
-                        name="business_sphere"
-                        value={formData.business_sphere}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="selling-bananas">Selling bananas</option>
-                        <option value="selling-people">Selling people</option>
-                    </select>
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="region">Region</label>
-                    <select
-                        id="region"
-                        name="region"
-                        value={formData.region}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="moscow">Moscow</option>
-                    </select>
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="desc">Business description</label>
-                    <textarea
-                        id="desc"
-                        name="desc"
-                        maxLength={400}
-                        value={formData.desc}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        maxLength={20}
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Registering..." : "Register"}
-                </button>
-            </form>
-            <a href="/login">Already have an account? Login</a>
+const businessSphereOptions = {
+    none: "Тип вашего бизнеса",
+    hoz: "Хозяйство",
+    dev: "Девелопмент"
+}
+const regionOptions = {
+    none: "Регион",
+    moscow: "Москва"
+}
+
+export function RegisterPage() {
+    const {
+        error,
+        loading,
+        formData,
+        isSecondPhase,
+        setIsSecondPhase,
+        handleChange,
+        handleSubmit,
+    } = useRegister();
+
+    const firstPhase = (
+        <div className="">
+            <img
+                src={authBg}
+                alt=""
+                className="absolute w-full h-full top-0 left-0 -z-10"
+            />
+            <div className="mt-[12vh]">
+                <h1 className="text-center text-2xl font-semibold">
+                    Добро пожаловать в Тенди
+                </h1>
+                <p className="text-center text-[1rem] wrap-normal">
+                    Сервис по подбору{" "}
+                    <span className="line-through">дешевых авиабилетов</span>{" "}
+                    тендеров
+                </p>
+            </div>
+
+            <div className="mt-[12vh] w-fill flex flex-col gap-1">
+                <TextInput
+                    type="email"
+                    name="email"
+                    placeholder="Почта"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <TextInput
+                    type="password"
+                    name="password"
+                    placeholder="Пароль"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <TextInput
+                    type="password"
+                    name="check_password"
+                    placeholder="Подтвердите пароль"
+                    value={formData.check_password}
+                    onChange={handleChange}
+                    required
+                />
+                {error && (
+                    <p className="text-center w-full text-[#FF3E3E] mt-3">
+                        {error}
+                    </p>
+                )}
+                <MainButton
+                    disabled={loading}
+                    onClick={() => setIsSecondPhase(true)}
+                    className="mt-4"
+                >
+                    {loading ? "Загрузка..." : "Далее"}
+                </MainButton>
+            </div>
+            <p className="text-secondary-color w-full text-center mt-4">
+                Уже есть аккаунт?{" "}
+                <a className="underline" href="/login">
+                    Войти
+                </a>
+            </p>
         </div>
     );
+
+    const secondPhase = (
+        <div className="">
+            <img
+                src={authBg}
+                alt=""
+                className="absolute w-full h-full top-0 left-0 -z-10"
+            />
+            <div className="mt-[12vh]">
+                <button
+                    className="bg-transparent flex gap-0.5 items-center"
+                    onClick={() => setIsSecondPhase(false)}
+                >
+                    <ArrowRight />
+                    <span>Назад</span>
+                </button>
+            </div>
+
+            <form
+                className="mt-[4vh] w-fill flex flex-col gap-1"
+                onSubmit={handleSubmit}
+            >
+                <TextInput
+                    className="hidden"
+                    type="email"
+                    name="email"
+                    placeholder="Почта"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <TextInput
+                    className="hidden"
+                    type="password"
+                    name="password"
+                    placeholder="Пароль"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <DropdownInput
+                    name="business_sphere"
+                    value={formData.business_sphere}
+                    onChange={handleChange}
+                    required
+                    options={businessSphereOptions}
+                />
+                <TextareaInput
+                    name="desc"
+                    value={formData.desc}
+                    onChange={handleChange}
+                    required
+                    rows="7"
+                    placeholder="Описание бизнеса (около 60 слов)"
+                    maxLength="400"
+                />
+                <DropdownInput
+                    name="region"
+                    value={formData.region}
+                    onChange={handleChange}
+                    required
+                    options={regionOptions}
+                />
+                {error && (
+                    <p className="text-center w-full text-[#FF3E3E] mt-3">
+                        {error}
+                    </p>
+                )}
+                <MainButton type="submit" disabled={loading} className="mt-4">
+                    {loading ? "Загрузка..." : "Зарегистрироваться"}
+                </MainButton>
+            </form>
+        </div>
+    );
+
+    return isSecondPhase ? secondPhase : firstPhase;
 }

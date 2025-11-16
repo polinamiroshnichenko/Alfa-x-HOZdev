@@ -7,11 +7,13 @@ export function useRegister() {
         name: "",
         email: "",
         password: "",
-        business_sphere: "selling-bananas",
-        region: "moscow",
+        check_password: "",
+        business_sphere: "none",
+        region: "none",
         desc: "",
     });
     const [error, setError] = useState("");
+    const [isSecondPhase, setIsSecondPhase] = useState(false);
     const { register, loading, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ export function useRegister() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        const { business_sphere, region, desc } = formData;
         try {
             await register(formData);
             navigate("/");
@@ -39,10 +42,34 @@ export function useRegister() {
         }
     };
 
+    const setPhaseNicely = (isSecond) => {
+        if (isSecond) {
+            const { password, check_password, email } = formData;
+            if (!password || !check_password || !email) {
+                return setError("Не все данные заполнены");
+            }
+            if (password !== check_password) {
+                return setError("Пароли не совпадают");
+            }
+            if (password.length < 8) {
+                return setError(
+                    "Пароль должен иметь длину не менее 8 символов"
+                );
+            }
+            if (!email.includes("@")) {
+                return setError("Неверный формат почтового адреса");
+            }
+        }
+        setError("");
+        setIsSecondPhase(isSecond);
+    };
+
     return {
         error,
         loading,
         formData,
+        isSecondPhase,
+        setIsSecondPhase: setPhaseNicely,
         handleChange,
         handleSubmit,
     };

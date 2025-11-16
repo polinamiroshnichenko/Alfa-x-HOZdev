@@ -36,7 +36,6 @@ export function AuthProvider({ children }) {
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-            console.log(data.user)
             return data;
         } finally {
             setLoading(false);
@@ -88,7 +87,7 @@ export function AuthProvider({ children }) {
 
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-            console.log(data.user)
+            
             return data;
         } finally {
             setLoading(false);
@@ -115,7 +114,7 @@ export function AuthProvider({ children }) {
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-            console.log(data)
+            
             return data;
         } catch (error) {
             console.log(error);

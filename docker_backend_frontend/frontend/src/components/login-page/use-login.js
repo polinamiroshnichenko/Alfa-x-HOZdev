@@ -8,7 +8,7 @@ export function useLogin() {
         password: ''
     });
     const [error, setError] = useState('');
-    const { login, loading, check, isAuthenticated } = useAuth();
+    const { login, loading, isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -16,14 +16,6 @@ export function useLogin() {
             ...formData,
             [e.target.name]: e.target.value
         });
-    };
-
-    const handleCheck = async () => {
-        try {
-            await check();
-        } catch (err) {
-            console.error(err)
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -49,7 +41,6 @@ export function useLogin() {
         loading,
         formData,
         handleChange,
-        handleCheck,
         handleSubmit
     }
 }
