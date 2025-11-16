@@ -48,7 +48,13 @@ https://learn.microsoft.com/en-us/answers/questions/2349627/copilot-doesnt-work-
 https://www.gartner.com/en/newsroom/press-releases/2024-05-07-gartner-survey-finds-generative-ai-is-now-the-most-frequently-deployed-ai-solution-in-organizations
 
 Основная боль - всё-таки работа с юридическими и финансовыми вопросами, особенно в вопросах "столкновения" этих двух сред: в работе с тендерами, госзакупками, мерами поддержки; 
-
+https://rmsp.nalog.ru/statistics2.html?t=1763319270398
+https://mskgazeta.ru/ekonomika/malyj-i-srednij-biznes-stal-ostorozhnee-struktura-sektora-mozhet-izmenit-sya-15409.html
+https://finance.mail.ru/article/chislo-subektov-msp-v-rossii-dostiglo-7-mln-66607094/
+https://protect-tender.ru/zakupki/material/zakupki-u-smsp-po-223-fz-kak-poluchit-lgoty-i-ne-narushit-zakon/
+https://xn----htbcb2bdgigp8h.xn--p1ai/tpost/11orj9u0a1-zakazchik-otklonit-zayavku-za-predostavl
+https://www.economy.gov.ru/material/dokumenty/doklad_o_sostoyanii_malogo_i_srednego_predprinimatelstva_v_rf_i_merah_po_ego_razvitiyu_za_20192023_gg.html
+https://zakupki.gov.ru/epz/main/public/home.html
 https://proffadmin.ru/stati/zakupki/uyazvimye-tochki-sistemy-goszakupok-snizhenie-riskov-korruptsii-oshibok-i-manipulyatsiy-rezultatami-zakupochnykh-protsedur/
 https://www.consultant.ru/legalnews/24597/
 https://fz44.org/blog/2025/11/02/44-%D1%84%D0%B7-%D0%B2%D0%B0%D0%B6%D0%BD%D1%8B%D0%B5-%D1%80%D0%B8%D1%81%D0%BA%D0%B8-%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D1%87%D0%B8%D0%BA%D0%B0-sc-nameincity-sc/
