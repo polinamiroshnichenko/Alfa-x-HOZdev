@@ -11,8 +11,8 @@
 POSTGRES_PASSWORD=mysecretpassword
 POSTGRES_DB_INFO=tenders_main
 POSTGRES_DB_CHUNKS=tenders_chunks
-OPENROUTER_API_KEY = "токен тут" ```
-
+OPENROUTER_API_KEY = "токен тут" 
+```
 
 ## Содержание:
 - [Проблема](#проблема)
