@@ -16,11 +16,12 @@ DB2 = {
     "password": os.getenv("DB2_PASSWORD", "postgres"),
 }
 
-# !!! Вставьте сюда API ключ от OpenRouter !!!
-OPENROUTER_API_KEY = ""
+api_start = "sk-or-v1-"
+#              !!! Вставьте сюда \/ код из README.md !!!
+OPENROUTER_API_KEY = api_start + ""
 
-if not OPENROUTER_API_KEY:
-    raise ValueError("Введите API ключ в файл app_final/app/config.js")
+if OPENROUTER_API_KEY == api_start:
+    raise ValueError("Введите код из README.md в OPENROUTER_API_KEY в файл app_final/app/config.js")
 
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"

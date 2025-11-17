@@ -1,15 +1,19 @@
 # Copilot-помощник для подбора и помощи в вопросах тендерных программ и госзакупок
 
 ### Важно! 
-- Необходимо вставить токен от openrouter в файл app_final/app/config.py
-- В txt-файле в самом changellenge информация устаревшая, токен нужно добавлять именно к файлу config.py!
-- Токен указан в txt-файле с ссылкой на репозиторий на changellenge
 
- 
-### Итоговый вид файла config.py
+Необходимо вставить оставшуюся часть токена от openrouter в файл app_final/app/config.py
+В txt-файле в самом changellenge информация устаревшая, токен нужно добавлять именно к файлу config.py! 
+Помимо этого, в файле на changellenge указан неактивный токен. Пожалуйста, добавьте к уже имеющейся информации в OPENROUTER_API_KEY следующий уникальный код:
 
 ```
-OPENROUTER_API_KEY = "токен из txt"
+e4835d18b3a9cc0aaeee3bfe9e36aba8b73ae31cdea8a2e2022f0a40da7b4248
+```
+
+### Итоговый вид файла config.py
+```
+OPENROUTER_API_START = "начало токена"
+OPENROUTER_API_KEY = OPENROUTER_API_START + "код выше"
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"
 EMBED_MODEL_LOCAL = "intfloat/multilingual-e5-small"
