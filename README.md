@@ -63,12 +63,15 @@ Qwen3-14B
 #### Проект использует Git LFS для хранения больших файлов.  
 Перед клонированием или работой с репозиторием установите Git LFS:
 В консоли напишите:
+
 git lfs install  
 
 Если репозиторий уже клонирован без LFS — выполните:
+
 git lfs pull
 
 Далее клонируйте репозиторий:
+
 git clone <repo_url>
 cd <project_folder>
 
@@ -79,11 +82,13 @@ docker-compose up -d --build
 
 Чтобы избежать ошибок при запуске, необходимо сообщить Git, что этот скрипт должен быть исполняемым.
 Выполните эту команду в корне проекта:
+
 git update-index --add --chmod=+x backend/init-db.sh
 
 ### Возможные проблемы и их решение:
 Проблема 1: Ошибка permission denied или cannot execute: required file not found
 Решение: локальное исправление 
+
 chmod +x backend/init-db.sh
 
 Проблема 2: Ошибка $'\\r': command not found или no such file or directory
@@ -100,6 +105,7 @@ chmod +x backend/init-db.sh
 Альтернативное решение (для Linux/macOS):
 С помощью утилиты dos2unix:
 Может потребоваться установка: sudo apt install dos2unix или brew install dos2unix
+
 dos2unix backend/init-db.sh
 
 ## Основные пользовательские сценарии (MVP)
