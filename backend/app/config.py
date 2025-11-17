@@ -16,7 +16,6 @@ DB2 = {
     "password": os.getenv("DB2_PASSWORD", "postgres"),
 }
 
-OPENROUTER_API_KEY = "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"
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"
 EMBED_MODEL_LOCAL = "intfloat/multilingual-e5-small"
