@@ -1,0 +1,66 @@
+import TextInput from "../ui/text-input";
+import MainButton from "../ui/main-button";
+import { useLogin } from "./use-login";
+
+import authBg from "../img/auth-bg.png"
+
+export function LoginPage() {
+    const {
+        error,
+        loading,
+        formData,
+        handleChange,
+        handleSubmit,
+    } = useLogin();
+    return (
+        <div className="">
+            <img src={authBg} alt="" className="absolute w-full h-full top-0 left-0 -z-10" />
+            <div className="mt-[12vh]">
+                <h1 className="text-center text-2xl font-semibold">
+                    Добро пожаловать в Тенди
+                </h1>
+                <p className="text-center text-[1rem] wrap-normal">
+                    Сервис по подбору{" "}
+                    <span className="line-through">дешевых авиабилетов</span>{" "}
+                    тендеров
+                </p>
+            </div>
+
+            <form
+                className="mt-[15vh] w-fill flex flex-col gap-1"
+                onSubmit={handleSubmit}
+            >
+                <TextInput
+                    type="email"
+                    name="email"
+                    placeholder="Почта"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <TextInput
+                    type="password"
+                    name="password"
+                    placeholder="Пароль"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                {error && (
+                <p className="text-center w-full text-[#FF3E3E] mt-3">
+                    {error}
+                </p>
+            )}
+                <MainButton type="submit" disabled={loading} className="mt-4">
+                    {loading ? "Загрузка..." : "Войти"}
+                </MainButton>
+            </form>
+                <p
+                    className="text-secondary-color w-full text-center mt-4"
+                >
+                    Нет аккаунта?{" "}
+                    <a className="underline" href="/register">Зарегистрироваться</a>
+                </p>
+        </div>
+    );
+}

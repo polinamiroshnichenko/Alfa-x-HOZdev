@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-highlight: #2E6CFF;
+  --color-highlight-hover: #004bfa;
+  --color-highlight-disabled: #243D78;
+  --color-secondary-color: #8e8e8f;
+  --color-secondary-hover-color: #9c9c9c;
+  --color-secondary-bg-color: #1C1C1E; 
+  --color-secondary-bg-hover-color: #222222;
+  --breakpoint-xs: 300px;
+  --breakpoint-sm: 550px;
+  --breakpoint-md: 800px;
+  --breakpoint-lg: 1200px;
+  --breakpoint-xl: 1440px;
+  --breakpoint-2xl: 1920px;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+* {
+  font-family: "Ubuntu Sans", sans-serif;
+  line-height: 1.2;
+}
+
+html {
+  color: #FFFFFF;
+  background-color: #121214;
+}
+
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 1.25rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #434343;
+    border-radius: 5px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #575757;
+}

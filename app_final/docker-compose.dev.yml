@@ -1,0 +1,150 @@
+services:
+  # Frontend - React
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/vite.config.js:/app/vite.config.js
+      - ./frontend/index.html:/app/index.html
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://backend:5000
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npm run dev -- --host 0.0.0.0
+    depends_on:
+      - backend
+      - api
+    networks:
+      - app-network
+
+  # Backend - Node.js
+  backend:
+    build:
+      context: ./backend
+      target: development
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://user:password@postgres:5432/myapp
+      - JWT_SECRET=dev-jwt-secret-change-in-production
+      - SESSION_SECRET=secret
+      - CLIENT_URL=http://localhost:3000
+    depends_on:
+      - postgres
+    command: npm run dev
+    networks:
+      - app-network
+
+  # FastAPI Python Backend
+  api:
+    build: .
+    container_name: tender_api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app/app
+    environment:
+
+      DB1_HOST: db
+      DB1_PORT: 5432
+      DB1_NAME: ${POSTGRES_DB_INFO:-tenders_main}
+      DB1_USER: ${POSTGRES_USER:-postgres}
+      DB1_PASSWORD: ${POSTGRES_PASSWORD:-password}
+
+      DB2_HOST: db
+      DB2_PORT: 5432
+      DB2_NAME: ${POSTGRES_DB_CHUNKS:-tenders_chunks}
+      DB2_USER: ${POSTGRES_USER:-postgres}
+      DB2_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    depends_on:
+      chunks_loader:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+  # Python Data Loaders
+  info_loader:
+    build: .
+    container_name: tender_info_loader
+    working_dir: /app/db_info
+    command: python load_tender_data_with_embedded_names.py
+    volumes:
+      - ./db_info:/app/db_info
+    environment:
+      DATABASE_URL_INFO: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB_INFO:-tenders_main}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  chunks_loader:
+    build: .
+    container_name: tender_chunks_loader
+    working_dir: /app/db_info
+    command: python load_tender_embedded.py
+    volumes:
+      - ./db_info:/app/db_info
+    environment:
+      DATABASE_URL_CHUNKS: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@db:5432/${POSTGRES_DB_CHUNKS:-tenders_chunks}"
+    depends_on:
+      info_loader:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+  # PostgreSQL for Python services
+  db:
+    image: pgvector/pgvector:pg15
+    container_name: dev_tender_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB_INFO: ${POSTGRES_DB_INFO:-tenders_main}
+      POSTGRES_DB_CHUNKS: ${POSTGRES_DB_CHUNKS:-tenders_chunks}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB_INFO:-tenders_main}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+  # PostgreSQL for Node.js services
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
