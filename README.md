@@ -1,5 +1,18 @@
 # Copilot-помощник для подбора и помощи в вопросах тендерных прогреамм и госзакупок
 
+Важно! 
+Необходимо вставить токен от openrouter в файл .env
+Токен указан в pdf файле с ссылкой на репозиторий на changellenge
+
+ 
+Итоговый вид файла .env
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=mysecretpassword
+POSTGRES_DB_INFO=tenders_main
+POSTGRES_DB_CHUNKS=tenders_chunks
+OPENROUTER_API_KEY = "токен тут"
+
+
 ## Содержание:
 - [Проблема](#проблема)
 - [Наше решение](#наше-решение)
