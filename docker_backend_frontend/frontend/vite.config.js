@@ -10,7 +10,7 @@ export default defineConfig({
         proxy: {
             "/api": {
                 // eslint-disable-next-line no-undef
-                target: process.env.VITE_API_URL,
+                target: process.env.NODE_ENV == "production" ? 80 : 3000,
                 changeOrigin: true,
                 secure: false,
             },
@@ -34,5 +34,5 @@ export default defineConfig({
         sourcemap: false,
     },
     // Для правильных путей в production
-    base: "./",
+    base: "",
 });

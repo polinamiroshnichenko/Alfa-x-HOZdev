@@ -34,7 +34,7 @@ export function PageLayout({ children }) {
                         )}
                     ></div>
                 </div>
-                <div className="min-h-full max-h-[calc(100vh-2rem)] p-4 relative z-0 rounded-2xl overflow-hidden flex flex-col">{children}</div>
+                <div className="min-h-full p-4 relative z-0 rounded-2xl overflow-hidden flex flex-col">{children}</div>
             </div>
         </div>
     );

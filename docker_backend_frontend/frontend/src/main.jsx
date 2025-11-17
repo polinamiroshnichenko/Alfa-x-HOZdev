@@ -12,7 +12,7 @@ import { UpdateUserPage } from "./components/update-user-page";
 import { PageLayout } from "./components/page-layout";
 import { ChatPage } from "./components/chat-page";
 
-const basePath = import.meta.env.BASE_URL;
+const basePath = "";
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
