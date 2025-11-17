@@ -16,6 +16,8 @@ DB2 = {
     "password": os.getenv("DB2_PASSWORD", "postgres"),
 }
 
+# Вставьте сюда API ключ от OpenRouter.
+OPENROUTER_API_KEY = ""
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"
 EMBED_MODEL_LOCAL = "intfloat/multilingual-e5-small"
