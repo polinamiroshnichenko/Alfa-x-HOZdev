@@ -1,11 +1,12 @@
 # Copilot-помощник для подбора и помощи в вопросах тендерных прогреамм и госзакупок
 
-Важно! 
+## Важно! 
 - Необходимо вставить токен от openrouter в файл .env
 - Токен указан в pdf файле с ссылкой на репозиторий на changellenge
 
  
-Итоговый вид файла .env
+## Итоговый вид файла .env
+
 POSTGRES_USER=postgres
 
 POSTGRES_PASSWORD=mysecretpassword
