@@ -5,13 +5,12 @@
 - Токен указан в pdf файле с ссылкой на репозиторий на changellenge
 
  
-### Итоговый вид файла .env
+### Итоговый вид файла config.py
 
-```POSTGRES_USER=postgres
-POSTGRES_PASSWORD=mysecretpassword
-POSTGRES_DB_INFO=tenders_main
-POSTGRES_DB_CHUNKS=tenders_chunks
-OPENROUTER_API_KEY = "токен тут" 
+```OPENROUTER_API_KEY = ""
+OPENROUTER_BASE = "https://openrouter.ai/api/v1"
+OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"
+EMBED_MODEL_LOCAL = "intfloat/multilingual-e5-small"
 ```
 
 ## Содержание:
