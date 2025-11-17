@@ -69,6 +69,7 @@ Qwen3-14B
 Далее клонируйте репозиторий:
 
 ```git clone <repo_url>```
+
 ```cd app```
 
 ```docker-compose up -d --build```
