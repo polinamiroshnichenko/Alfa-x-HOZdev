@@ -73,7 +73,7 @@ Qwen3-14B
 Далее клонируйте репозиторий:
 
 ```git clone <repo_url>```
-```cd <project_folder>```
+```cd app```
 
 ```docker-compose up -d --build```
 
@@ -83,13 +83,13 @@ Qwen3-14B
 Чтобы избежать ошибок при запуске, необходимо сообщить Git, что этот скрипт должен быть исполняемым.
 Выполните эту команду в корне проекта:
 
-```git update-index --add --chmod=+x backend/init-db.sh```
+```git update-index --add --chmod=+x app/init-db.sh```
 
 ### Возможные проблемы и их решение:
 Проблема 1: Ошибка permission denied или cannot execute: required file not found
 Решение: локальное исправление 
 
-```chmod +x backend/init-db.sh```
+```chmod +x app/init-db.sh```
 
 Проблема 2: Ошибка $'\\r': command not found или no such file or directory
 Эта ошибка вызвана неправильными окончаниями строк (Windows-стиль CRLF вместо Unix-стиля LF).
@@ -106,7 +106,7 @@ Qwen3-14B
 С помощью утилиты dos2unix:
 Может потребоваться установка: sudo apt install dos2unix или brew install dos2unix
 
-```dos2unix backend/init-db.sh```
+```dos2unix app/init-db.sh```
 
 ## Основные пользовательские сценарии (MVP)
 
