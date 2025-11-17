@@ -26,7 +26,7 @@ services:
   info_loader:
     build: .
     container_name: tender_info_loader
-    working_dir: /Alfa-x-HOZdev/backend/app/db_info
+    working_dir: /app/db_info
     command: python load_tender_data_with_embedded_names.py
     volumes:
       - ./db_info:/app/db_info
@@ -39,7 +39,7 @@ services:
   chunks_loader:
     build: .
     container_name: tender_chunks_loader
-    working_dir: /Alfa-x-HOZdev/backend/app/db_info
+    working_dir: /app/db_info
     command: python load_tender_embedded.py
     volumes:
       - ./db_info:/app/db_info
