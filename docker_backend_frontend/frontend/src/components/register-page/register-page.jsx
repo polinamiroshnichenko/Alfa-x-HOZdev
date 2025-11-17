@@ -5,17 +5,7 @@ import TextareaInput from "../ui/textarea-input";
 import { useRegister } from "./useRegister";
 
 import authBg from "../img/auth-bg.png";
-import ArrowRight from "../img/arrow-right";
-
-const businessSphereOptions = {
-    none: "Тип вашего бизнеса",
-    hoz: "Хозяйство",
-    dev: "Девелопмент"
-}
-const regionOptions = {
-    none: "Регион",
-    moscow: "Москва"
-}
+import ArrowRightIcon from "../img/arrow-right";
 
 export function RegisterPage() {
     const {
@@ -23,6 +13,8 @@ export function RegisterPage() {
         loading,
         formData,
         isSecondPhase,
+        businessSphereOptions,
+        regionOptions,
         setIsSecondPhase,
         handleChange,
         handleSubmit,
@@ -105,7 +97,7 @@ export function RegisterPage() {
                     className="bg-transparent flex gap-0.5 items-center"
                     onClick={() => setIsSecondPhase(false)}
                 >
-                    <ArrowRight />
+                    <ArrowRightIcon />
                     <span>Назад</span>
                 </button>
             </div>
@@ -129,6 +121,14 @@ export function RegisterPage() {
                     name="password"
                     placeholder="Пароль"
                     value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <TextInput
+                    type="text"
+                    name="name"
+                    placeholder="Ваше имя"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                 />

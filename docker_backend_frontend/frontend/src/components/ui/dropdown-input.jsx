@@ -4,7 +4,7 @@ export default function DropdownInput({ options, name, ...props }) {
     return (
         <select
             className={clsx(
-                "bg-[#1C1C1E] rounded-xl flex p-4.5 w-fill h-fit text-[1rem]"
+                "bg-secondary-bg-color rounded-xl flex p-4.5 w-fill h-fit text-[1rem]"
             )}
             id={name}
             name={name}

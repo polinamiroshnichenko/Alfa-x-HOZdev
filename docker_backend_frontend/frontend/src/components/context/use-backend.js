@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { AuthContext } from './auth-content';
+import { BackendContext } from './backend-content';
 
-export function useAuth() {
-    const context = useContext(AuthContext);
+export function useBackend() {
+    const context = useContext(BackendContext);
     if (!context) {
         throw new Error('useAuth must be used within AuthProvider');
     }

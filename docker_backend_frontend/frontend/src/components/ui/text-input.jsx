@@ -8,7 +8,7 @@ export default function TextInput({
     return (
         <input
             className={clsx(
-                "bg-[#1C1C1E] placeholder:text-secondary-color rounded-xl flex p-4.5 w-fill h-fit text-[1rem]",
+                "bg-secondary-bg-color placeholder:text-secondary-color rounded-xl flex p-4.5 w-fill h-fit text-[1rem]",
                 className
             )}
             id={name}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../context/use-auth.js";
+import { useBackend } from "../context/use-backend.js";
 import { useNavigate } from "react-router-dom";
 
 export function useRegister() {
@@ -14,7 +14,7 @@ export function useRegister() {
     });
     const [error, setError] = useState("");
     const [isSecondPhase, setIsSecondPhase] = useState(false);
-    const { register, loading, isAuthenticated } = useAuth();
+    const { register, loading, isAuthenticated } = useBackend();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export function useRegister() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        const { business_sphere, region, desc } = formData;
+        console.log(formData)
         try {
             await register(formData);
             navigate("/");

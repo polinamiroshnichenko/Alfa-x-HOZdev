@@ -2,12 +2,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* --color-highlight: rgba(0, 119, 255, 0.20);
-  --color-secondary: #737373; */
   --color-highlight: #2E6CFF;
   --color-highlight-hover: #004bfa;
   --color-highlight-disabled: #243D78;
   --color-secondary-color: #8e8e8f;
+  --color-secondary-hover-color: #9c9c9c;
+  --color-secondary-bg-color: #1C1C1E; 
+  --color-secondary-bg-hover-color: #222222;
   --breakpoint-xs: 300px;
   --breakpoint-sm: 550px;
   --breakpoint-md: 800px;

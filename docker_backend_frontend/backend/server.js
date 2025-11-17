@@ -69,7 +69,7 @@ app.post("/api/auth/register", async (req, res) => {
 
         // Валидация
         if (!(name && email && password && business_sphere != "none" && business_sphere && region != "none" && region && desc)) {
-            return res.status(400).json({ error: "Some fields are required" });
+            return res.status(400).json({ error: "Не все поля заполнены" });
         }
 
         // Проверяем существует ли пользователь
@@ -77,12 +77,12 @@ app.post("/api/auth/register", async (req, res) => {
         if (existingUser) {
             return res
                 .status(409)
-                .json({ error: "User with this email already exists" });
+                .json({ error: "Пользователь с такой почтой уже существует" });
         }
         if (password.length < 8) {
             return res
                 .status(400)
-                .json({ error: "Password must be at least 8 characters" });
+                .json({ error: "Пароль должен содержать не менее 8 символов" });
         }
 
         // Создаем нового пользователя
@@ -105,21 +105,13 @@ app.post("/api/auth/register", async (req, res) => {
 
         // Возвращаем данные без пароля
         res.status(201).json({
-            message: "User registered successfully",
+            message: "Пользователь успешно зарегистрирован",
             user: newUser,
-            // user: {
-            //     id: newUser.id,
-            //     name: newUser.name,
-            //     email: newUser.email,
-            //     business_sphere: newUser.business_sphere,
-            //     region: newUser.region,
-            //     desc: newUser.desc,
-            // },
             token,
         });
     } catch (error) {
         console.error("Registration error:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -127,11 +119,11 @@ app.get("/api/check", async (req, res) => {
     try {
         console.log("Connection checked");
         res.status(201).json({
-            message: "Check successful",
+            message: "Успешная проверка соединения с сервером",
         });
     } catch (error) {
         console.error("Server check error:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -140,10 +132,10 @@ app.post("/api/auth/login", async (req, res) => {
         const { email, password } = req.body;
 
         // Валидация
-        if (!email && password) {
+        if (!email || !password) {
             return res
                 .status(400)
-                .json({ error: "Email and password are required" });
+                .json({ error: "Не все поля заполнены" });
         }
 
         // Поиск пользователя в БД
@@ -152,13 +144,13 @@ app.post("/api/auth/login", async (req, res) => {
         });
 
         if (!user) {
-            return res.status(401).json({ error: "Invalid email or password" });
+            return res.status(401).json({ error: "Неверная почта или пароль" });
         }
 
         // Проверка пароля
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: "Invalid email or password" });
+            return res.status(401).json({ error: "Неверная почта или пароль" });
         }
 
         // Генерация JWT токена
@@ -172,21 +164,13 @@ app.post("/api/auth/login", async (req, res) => {
         );
 
         res.json({
-            message: "Login successful",
+            message: "Успешный вход",
             user: user,
-            // user: {
-            //     id: user.id,
-            //     name: user.name,
-            //     email: user.email,
-            //     business_sphere: user.business_sphere,
-            //     region: user.region,
-            //     desc: user.desc,
-            // },
             token,
         });
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -194,11 +178,10 @@ app.put("/api/user/update", async (req, res) => {
     try {
         const { id, name, email, business_sphere, region, desc, password } =
             req.body;
-
         // Находим пользователя
         const user = await User.findByPk(id);
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ error: "Пользователь не найден" });
         }
 
         // Проверяем email на уникальность (если меняется)
@@ -207,7 +190,7 @@ app.put("/api/user/update", async (req, res) => {
             if (existingUser) {
                 return res
                     .status(409)
-                    .json({ error: "User with this email already exists" });
+                    .json({ error: "Пользователь с такой почтой уже существует" });
             }
         }
 
@@ -224,7 +207,7 @@ app.put("/api/user/update", async (req, res) => {
             if (password.length < 8) {
                 return res
                     .status(400)
-                    .json({ error: "Password must be at least 8 characters" });
+                    .json({ error: "Пароль должен содержать не менее 8 символов" });
             }
             updateData.password = await bcrypt.hash(password, 10);
         }
@@ -238,7 +221,7 @@ app.put("/api/user/update", async (req, res) => {
         });
 
         res.json({
-            message: "User updated successfully",
+            message: "Пользователь успешно обновлен",
             user: updatedUser,
         });
     } catch (error) {
@@ -247,14 +230,14 @@ app.put("/api/user/update", async (req, res) => {
         if (error.name === "SequelizeUniqueConstraintError") {
             return res
                 .status(409)
-                .json({ error: "User with this email already exists" });
+                .json({ error: "Пользователь с такой почтой уже существует" });
         }
 
         if (error.name === "SequelizeValidationError") {
             return res.status(400).json({ error: error.errors[0].message });
         }
 
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -265,7 +248,7 @@ app.put("/api/user/completeOnboarding", async (req, res) => {
         // Находим пользователя
         const user = await User.findByPk(id);
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ error: "Пользователь не найден" });
         }
 
         await user.update({ watchedOnboarding: true });
@@ -276,7 +259,7 @@ app.put("/api/user/completeOnboarding", async (req, res) => {
         });
 
         res.json({
-            message: "User updated successfully",
+            message: "Пользователь успешно обновлен",
             user: updatedUser,
         });
     } catch (error) {
@@ -285,14 +268,14 @@ app.put("/api/user/completeOnboarding", async (req, res) => {
         if (error.name === "SequelizeUniqueConstraintError") {
             return res
                 .status(409)
-                .json({ error: "User with this email already exists" });
+                .json({ error: "Пользователь с такой почтой уже существует" });
         }
 
         if (error.name === "SequelizeValidationError") {
             return res.status(400).json({ error: error.errors[0].message });
         }
 
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -304,23 +287,15 @@ app.get("/api/user/profile", authenticateToken, async (req, res) => {
         });
 
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ error: "Пользователь не найден" });
         }
 
         res.json({
-            user: user,
-            // user: {
-            //     id: user.id,
-            //     name: user.name,
-            //     email: user.email,
-            //     business_sphere: user.business_sphere,
-            //     region: user.region,
-            //     desc: user.desc,
-            // },
+            user: user
         });
     } catch (error) {
         console.error("Get profile error:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Внутренняя ошибка сервера" });
     }
 });
 
@@ -352,7 +327,7 @@ if (process.env.NODE_ENV === "development") {
             res.send(output);
         } catch (error) {
             console.error("Error fetching users:", error);
-            res.status(500).json({ error: "Failed to fetch users" });
+            res.status(500).json({ error: "Ошибка чтения списка пользователей" });
         }
     });
 }
@@ -363,7 +338,7 @@ function authenticateToken(req, res, next) {
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-        return res.status(401).json({ error: "Access token required" });
+        return res.status(401).json({ error: "Необходим ключ доступа" });
     }
 
     jwt.verify(
@@ -373,7 +348,7 @@ function authenticateToken(req, res, next) {
             if (err) {
                 return res
                     .status(403)
-                    .json({ error: "Invalid or expired token" });
+                    .json({ error: "Ключ доступа недействителен или просрочен" });
             }
             req.user = user;
             next();

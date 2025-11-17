@@ -1,10 +1,21 @@
 import { createContext, useState, useEffect } from "react";
 
-const AuthContext = createContext();
+const BackendContext = createContext();
 
-export function AuthProvider({ children }) {
+export function BackendProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [tenders, setTenders] = useState([]);
+
+    const businessSphereOptions = {
+        none: "Тип вашего бизнеса",
+        hoz: "Хозяйство",
+        dev: "Девелопмент",
+    };
+    const regionOptions = {
+        none: "Регион",
+        moscow: "Москва",
+    };
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -12,6 +23,10 @@ export function AuthProvider({ children }) {
             const userData = localStorage.getItem("user");
             if (userData) {
                 setUser(JSON.parse(userData));
+            }
+            const tendersData = localStorage.getItem("tenders");
+            if (tendersData) {
+                setTenders(JSON.parse(tendersData));
             }
         }
     }, []);
@@ -50,7 +65,7 @@ export function AuthProvider({ children }) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(userData),
+                body: JSON.stringify({ ...userData, id: user.id }),
             });
 
             const data = await response.json();
@@ -76,7 +91,7 @@ export function AuthProvider({ children }) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({id: userData.id}),
+                body: JSON.stringify({ id: userData.id }),
             });
 
             const data = await response.json();
@@ -87,7 +102,7 @@ export function AuthProvider({ children }) {
 
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-            
+
             return data;
         } finally {
             setLoading(false);
@@ -114,7 +129,7 @@ export function AuthProvider({ children }) {
             localStorage.setItem("authToken", data.token);
             localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
-            
+
             return data;
         } catch (error) {
             console.log(error);
@@ -127,7 +142,9 @@ export function AuthProvider({ children }) {
     const logout = () => {
         localStorage.removeItem("authToken");
         localStorage.removeItem("user");
+        localStorage.removeItem("user");
         setUser(null);
+        setTenders([]);
     };
 
     const check = async () => {
@@ -145,7 +162,7 @@ export function AuthProvider({ children }) {
             if (!response.ok) {
                 throw new Error(data.error || "Check failed");
             } else {
-                console.log(data)
+                console.log(data);
             }
             console.log("Server check complete");
         } catch (err) {
@@ -153,21 +170,115 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const fetchTenders = async () => {
+        try {
+            setLoading(true);
+            // const response = await fetch('/api/tenders');// !!!
+            // if (!response.ok) throw new Error('Failed to fetch');
+
+            // const data = await response.json();
+            // setTenders(data);
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+            const newTenders = [
+                {
+                    id: "1",
+                    post_date: "2025-11-21 00:00:00",
+                    title: "Закупка услуг подвижной связи",
+                    region: "Москва",
+                    until_date: "2025-11-21 00:00:00",
+                    price: "85000",
+                },
+                {
+                    id: "2",
+                    post_date: "",
+                    title: "",
+                    region: "",
+                    until_date: "",
+                    price: "",
+                },
+                {
+                    id: "3",
+                    post_date: "2025-11-21 00:00:00",
+                    title: "Закупка услуг подвижной связи",
+                    region: "Москва",
+                    until_date: "2025-11-21 00:00:00",
+                    price: "85000",
+                },
+                {
+                    id: "4",
+                    post_date: "2025-11-21 00:00:00",
+                    title: "Закупка услуг подвижной связи",
+                    region: "Москва",
+                    until_date: "2025-11-21 00:00:00",
+                    price: "85000",
+                },
+                {
+                    id: "5",
+                    post_date: "2025-11-21 00:00:00",
+                    title: "Закупка услуг подвижной связи",
+                    region: "Москва",
+                    until_date: "2025-11-21 00:00:00",
+                    price: "85000",
+                },
+                {
+                    id: "6",
+                    post_date: "2025-11-21 00:00:00",
+                    title: "Закупка услуг подвижной связи",
+                    region: "Москва",
+                    until_date: "2025-11-21 00:00:00",
+                    price: "85000",
+                },
+            ];
+            setTenders(newTenders);
+            localStorage.setItem("tenders", JSON.stringify(newTenders));
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const sendMessage = async (tenderId, messageText) => {
+        try {
+            setLoading(true);
+            // const response = await fetch('/api/tenders');// !!!
+            // if (!response.ok) throw new Error('Failed to fetch');
+
+            // const data = await response.json();
+            // setTenders(data);
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+            return {
+                model_text: tenderId + messageText,
+            };
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const value = {
         user,
         loading,
+        tenders,
+        businessSphereOptions,
+        regionOptions,
         register,
         login,
         logout,
         check,
         updateUser,
+        fetchTenders,
+        sendMessage,
         completeOnboarding,
         isAuthenticated: !!user,
     };
 
     return (
-        <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+        <BackendContext.Provider value={value}>
+            {children}
+        </BackendContext.Provider>
     );
 }
 
-export { AuthContext };
+export { BackendContext };
