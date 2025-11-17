@@ -2,14 +2,14 @@
 
 ### Важно! 
 - Необходимо вставить токен от openrouter в файл app_final/app/config.py
-- В pdf в самом changellenge информация устаревшая, токен нужно добавлять именно к файлу config.py!
-- Токен указан в pdf файле с ссылкой на репозиторий на changellenge
+- В txt-файле в самом changellenge информация устаревшая, токен нужно добавлять именно к файлу config.py!
+- Токен указан в txt-файле с ссылкой на репозиторий на changellenge
 
  
 ### Итоговый вид файла config.py
 
 ```
-OPENROUTER_API_KEY = "токен из pdf"
+OPENROUTER_API_KEY = "токен из txt"
 OPENROUTER_BASE = "https://openrouter.ai/api/v1"
 OPENROUTER_GEN_MODEL = "qwen/qwen3-14b:free"
 EMBED_MODEL_LOCAL = "intfloat/multilingual-e5-small"
