@@ -179,63 +179,35 @@ export function BackendProvider({ children }) {
     const fetchTenders = async () => {
         try {
             setLoading(true);
-            // const response = await fetch('/api/tenders');// !!!
-            // if (!response.ok) throw new Error('Failed to fetch');
+            const request = {
+                user_id: user.id,
+                business_field: businessSphereOptions[user.business_sphere],
+                business_description: user.desc,
+                city: regionOptions[user.region]
 
-            // const data = await response.json();
-            // setTenders(data);
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-            const newTenders = [
-                {
-                    id: "1",
-                    post_date: "2025-11-21 00:00:00",
-                    title: "Закупка услуг подвижной связи",
-                    region: "Москва",
-                    until_date: "2025-11-21 00:00:00",
-                    price: "85000",
+            }
+            const response = await fetch("/llm/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
                 },
-                {
-                    id: "2",
-                    post_date: "",
-                    title: "",
-                    region: "",
-                    until_date: "",
-                    price: "",
-                },
-                {
-                    id: "3",
-                    post_date: "2025-11-21 00:00:00",
-                    title: "Закупка услуг подвижной связи",
-                    region: "Москва",
-                    until_date: "2025-11-21 00:00:00",
-                    price: "85000",
-                },
-                {
-                    id: "4",
-                    post_date: "2025-11-21 00:00:00",
-                    title: "Закупка услуг подвижной связи",
-                    region: "Москва",
-                    until_date: "2025-11-21 00:00:00",
-                    price: "85000",
-                },
-                {
-                    id: "5",
-                    post_date: "2025-11-21 00:00:00",
-                    title: "Закупка услуг подвижной связи",
-                    region: "Москва",
-                    until_date: "2025-11-21 00:00:00",
-                    price: "85000",
-                },
-                {
-                    id: "6",
-                    post_date: "2025-11-21 00:00:00",
-                    title: "Закупка услуг подвижной связи",
-                    region: "Москва",
-                    until_date: "2025-11-21 00:00:00",
-                    price: "85000",
-                },
-            ];
-            setTenders(newTenders);
+                body: JSON.stringify(request),
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch');
+            
+            console.log(data)
+
+            const newTenders = data.map((tender) => {return {
+                id: tender.registry_number,
+                post_date: tender.application_start_date,
+                until_date: tender.application_end_date,
+                title: tender.short_name,
+                region: tender.region,
+                price: tender.starting_price
+            }})
+            setTenders(data);
+            
             localStorage.setItem("tenders", JSON.stringify(newTenders));
         } catch (err) {
             console.error(err);
@@ -247,11 +219,23 @@ export function BackendProvider({ children }) {
     const sendMessage = async (tenderId, messageText) => {
         try {
             setLoading(true);
-            // const response = await fetch('/api/tenders');// !!!
-            // if (!response.ok) throw new Error('Failed to fetch');
+            const request = {
+                user_id: user.id,
+                registry_number: tenderId,
+                user_query: messageText
+            }
+            const response = await fetch("/llm/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(request),
+            });
+            if (!response.ok) throw new Error('Failed to fetch');
 
-            // const data = await response.json();
-            // setTenders(data);
+            const data = await response.json();
+            console.log(data)
+            setTenders(data);
             await new Promise((resolve) => setTimeout(resolve, 5000));
             return {
                 model_text: tenderId + messageText,

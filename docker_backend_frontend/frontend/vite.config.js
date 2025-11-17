@@ -9,22 +9,27 @@ export default defineConfig({
         port: 3000,
         proxy: {
             "/api": {
-                // eslint-disable-next-line no-undef
-                target: process.env.NODE_ENV == "production" ? 80 : 3000,
+                target: 'http://backend:5000',
                 changeOrigin: true,
                 secure: false,
+                
             },
+            "/llm": {
+                target: 'http://api:8000',
+                changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/llm/, ''),
+            }
         },
     },
-    strictPort: true, // ← Не меняет порт если занят
     watch: {
-        usePolling: true, // ← Обязательно для Docker
-        interval: 1000, // ← Частота проверки
-        useFsEvents: false, // ← Отключаем fs events
+        usePolling: true,
+        interval: 1000,
+        useFsEvents: false,
     },
     hmr: {
-        clientPort: 3000, // ← Порт для HMR
-        overlay: true, // ← Показывать ошибки поверх страницы
+        clientPort: 3000,
+        overlay: true,
     },
     define: {
         "process.env": {},
@@ -33,6 +38,5 @@ export default defineConfig({
         outDir: "dist",
         sourcemap: false,
     },
-    // Для правильных путей в production
     base: "",
 });
