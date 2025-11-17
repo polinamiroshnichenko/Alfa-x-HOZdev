@@ -83,12 +83,13 @@ Qwen3-14B
 ```git update-index --add --chmod=+x app/init-db.sh```
 
 ### Возможные проблемы и их решение:
-Проблема 1: Ошибка permission denied или cannot execute: required file not found
+#### Проблема 1: Ошибка permission denied или cannot execute: required file not found
 Решение: локальное исправление 
 
 ```chmod +x app/init-db.sh```
 
-Проблема 2: Ошибка $'\\r': command not found или no such file or directory
+#### Проблема 2: Ошибка $'\\r': command not found или no such file or directory
+
 Эта ошибка вызвана неправильными окончаниями строк (Windows-стиль CRLF вместо Unix-стиля LF).
 Решение (через VS Code):
 1. Откройте вашу папку backend в редакторе VS Code.
